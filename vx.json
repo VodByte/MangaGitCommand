@@ -1,0 +1,31 @@
+{
+    "created_time": "2021-12-31T03:05:18Z",
+    "files": [
+        {
+            "attachment_folder": "",
+            "created_time": "2021-12-31T03:05:56Z",
+            "id": "3",
+            "modified_time": "2021-12-31T05:17:50Z",
+            "name": "第1话 创建仓库来提交吧 【连载】漫画 Git ～命令篇～.md",
+            "signature": "27205963772820",
+            "tags": [
+            ]
+        },
+        {
+            "attachment_folder": "",
+            "created_time": "2021-12-31T03:09:22Z",
+            "id": "6",
+            "modified_time": "2021-12-31T05:19:28Z",
+            "name": "第2话 什么是分支？指针是什么意思？创建・确认・切换的方法【连载】漫画 Git ～命令篇～.md",
+            "signature": "113818274264162",
+            "tags": [
+            ]
+        }
+    ],
+    "folders": [
+    ],
+    "id": "2",
+    "modified_time": "2021-12-31T03:05:18Z",
+    "signature": "79316801975150",
+    "version": 3
+}
