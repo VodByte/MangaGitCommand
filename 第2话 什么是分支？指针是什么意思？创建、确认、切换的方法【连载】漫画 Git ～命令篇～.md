@@ -132,8 +132,8 @@ master 这个名字，意味着它是最初的分支吧！
 ![](vx_images/485370911211722.jpeg "f:id:itstaffing:20190617145541j:plain")
 
 正是如此。
-基于提交生成的数据被成为「提交物体」。
-Git 会为每个提交物体分配 40 个字符长度的 ID。
+基于提交生成的数据被成为「提交对象」。
+Git 会为每个提交对象分配 40 个字符长度的 ID。
 而这就是提交 ID 了。
 
 ![](vx_images/479310911221192.jpeg "f:id:itstaffing:20190617145535j:plain")
@@ -151,60 +151,64 @@ Git 会为每个提交物体分配 40 个字符长度的 ID。
 
 ![](vx_images/454100911239376.jpeg "f:id:itstaffing:20190617145535j:plain")
 
-ええ～っ！  
-拍子抜けするほどカンタンな話じゃん！
+欸欸~！
+简单到令人失望呀！
 
-![f:id:itstaffing:20190717120254j:plain](vx_images/447020911216936.jpeg "f:id:itstaffing:20190717120254j:plain")
+![](vx_images/447020911216936.jpeg "f:id:itstaffing:20190717120254j:plain")
 
-### コミットオブジェクトの中身をのぞいてみよう
+### 来探秘提交对象的内部吧
 
-コミットが「コミットを指し示している」とはどういうことでしょうか？実際に見てみましょう。
+「提交指向了其他提交」究竟是什么意思？来实际看看吧。
 
-同じ練習用フォルダの中で、もうひとつコミットを作り、コミットログには計2つのコミットがある状態にしてください。操作方法は次の通りです。
+依照下方的操作，在相同的练习用文件夹中里再创建一个提交，这样查看提交记录的话，应该能看到 2 个提交。
 
 1\. sample.txtに何かしら変更を加える  
 2\. $ git add sample.txt  
 3\. $ git commit -m “2回目のコミット”  
 4\. $ git log
 
-![f:id:itstaffing:20190717120258j:plain](vx_images/439960911235695.jpeg "f:id:itstaffing:20190717120258j:plain")
+![](vx_images/439960911235695.jpeg "f:id:itstaffing:20190717120258j:plain")
 
-2回目のコミットが記録できましたね。コミット履歴がこのようになっていればOKです。
+第二次的提交被记录下来了呢。能看到这样的提交历史就 OK 了。
 
-さて、このとき2回目のコミットオブジェクトには何が記録されているでしょうか？次のコマンドで見てみましょう。
+接下来，第二次的提交对象记录了些什么东西呢？用下面的命令来看看吧。
 
-$ git cat-file -p 0e9556
+	$ git cat-file -p 0e9556
 
-▼ 表示結果：これがコミットオブジェクトだ
+▼显示结果：这就是提交对象
 
-treeee290b48b356d721ae54d1edb03993802cc98bad8  
-parentt02f11b759bfeb461e117c5da18bb2dcbe06d862a  
-authorrllminatolll<XXX@mail.com>l1562052826 +0900  
-committerrllminatolll<XXX@mail.com>l1562052826 +0900
+	treeee290b48b356d721ae54d1edb03993802cc98bad8  
+	parentt02f11b759bfeb461e117c5da18bb2dcbe06d862a  
+	authorrllminatolll<XXX@mail.com>l1562052826 +0900  
+	committerrllminatolll<XXX@mail.com>l1562052826 +0900
 
-「parent」の部分に注目です！02f11b…と書かれています。
+注意看「parent」的部分！那里写着02f11b…。
 
-![f:id:itstaffing:20190617145535j:plain](vx_images/433880911238193.jpeg "f:id:itstaffing:20190617145535j:plain")
+![](vx_images/433880911238193.jpeg "f:id:itstaffing:20190617145535j:plain")
 
-あっ！ このコミットIDは、ひとつ前のものだよね。  
-2つ目のコミットが、1つ目のコミットを指差してるってワケだ！
+啊！这个提交 ID 不就是上一个的吗。
+第二个提交指向着第一个提交呢！
 
-▼ 今の状態
+▼现在的状态
 
-![f:id:itstaffing:20190717120300j:plain](https://cdn-ak.f.st-hatena.com/images/fotolife/i/itstaffing/20190717/20190717120300.jpg "f:id:itstaffing:20190717120300j:plain")
+![](https://cdn-ak.f.st-hatena.com/images/fotolife/i/itstaffing/20190717/20190717120300.jpg "f:id:itstaffing:20190717120300j:plain")
 
+将提交相互连接的，就是记录在 parent(父级）的信息。
 コミットとコミットを結びつけているのは、このparent（親）の記載です。一番初めのコミットを除き、すべてのコミットオブジェクトには必ずparentが記載されています。
 
-▼ 試しに、一番初めのコミット（イニシャルコミット）のコミットオブジェクトも見てみましょう。記載があるのはtree、author、committerの3つだけ。parentの記載がないのが見てとれます。
 
-$ git cat-file -p 02f11b759  
-  
-treee4576025551dd04fafbcb36bd7e1e7814018d11ea  
-authorrllminatolll<XXX@mail.com>11559898094 +0900  
-committerrllminatolll<XXX@mail.com>11559898094 +0900
 
-★コミットIDは何を元に作られているの？  
+▼看看最初的提（初始提交）交，可以看出没有 parent 的信息，记录的只有 tree、author、committer。
+
+	$ git cat-file -p 02f11b759  
   
+	treee4576025551dd04fafbcb36bd7e1e7814018d11ea  
+	authorrllminatolll<XXX@mail.com>11559898094 +0900  
+	committerrllminatolll<XXX@mail.com>11559898094 +0900
+
+★提交 ID 是基于什么生成的呢？
+  
+提交 ID（哈希值）实际上是根据提交对象的 byte大小 与 内容计算得来的。
 コミットID（コミットハッシュ値）は、実はこのコミットオブジェクトのバイト数と中身を使い、計算されて作られています。よって、コミットした人の名前やコミットした時間、指し示すparent、treeが違えばコミットハッシュ値も違うものになります。  
   
 その証拠に、同じ内容をコミットしていても、あなたの練習用リポジトリとわかばちゃんのコミットIDは違うはずです。コミットハッシュ値についてもっと深く知りたい方は、こちらの記事が詳しいのでおすすめです。  
@@ -242,58 +246,43 @@ $ git checkout \[ブランチ名\]
 
 $ git checkout develop と打ち込み、その後 $ git branch でブランチ一覧を見ると、今自分はdevelopブランチの中にいることが見てとれます。
 
-▼ 今の状態
+▼现在的状态
 
-![f:id:itstaffing:20190717120307j:plain](vx_images/321740911222709.jpeg "f:id:itstaffing:20190717120307j:plain")
+![](vx_images/321740911222709.jpeg "f:id:itstaffing:20190717120307j:plain")
+
 
 試しに、developブランチの中にいる状態で、sample.txtに何かしら文字を追加して新たにコミットを作ってみてください。
 
 developブランチの指差しだけが動き、masterは2回目のコミットを指差したままです。こういう仕組みのおかげで、masterブランチに影響を与えることなく、開発用ブランチにコミットを積み重ねていくことができるのです。
 
-▼ 今の状態
+▼现在的状态
+![](vx_images/315670911226955.jpeg "f:id:itstaffing:20190717120311j:plain")
 
-![f:id:itstaffing:20190717120311j:plain](vx_images/315670911226955.jpeg "f:id:itstaffing:20190717120311j:plain")
+★知道了超方便！`git checkout` 的小知识
 
-★知っていると便利！ git checkout コマンドの豆知識  
-  
+「-b」选项
 
-「-b」オプション
+	$ git checkout -b \[分支名\]
 
-  
+可以在新建分支的同时，切换到新分支上。
 
-$ git checkout -b \[ブランチ名\]
+「-f」选项
 
-  
-  
+	$ git checkout -f \[分支名\]
 
-ブランチの作成とチェックアウトを同時に行えます。
+强制切换分支。（要注意会丢失没有提交的信息）
 
-  
-  
+### 总结
 
-「-f」オプション
+那么，到现在我们已经学习了分支的概念，并且掌握了
 
-  
+	$ git branch （创建分支）
+	$ git checkout (切换分支）
 
-$ git checkout -f \[ブランチ名\]
+的使用方法。
 
-  
-  
-ブランチを強制的に切り替えることができます。  
-（コミットしていない作業データは消えるので注意）
+Git 中还有许多许多的命令，
+下次将会解说用来合并分支的命令「merge」!
 
-### まとめ
-
-さて、ここまでで、ブランチの概念の習得と合わせて
-
-$ git branch（ブランチを作る）
-$ git checkout （チェックアウトする）
-
-が使えるようになりましたね！
-
-Gitにはまだまだたくさんのコマンドがあります。  
-次回は、ブランチとブランチを併合する「マージ」について解説します！  
-  
-
-▼登場キャラクター紹介  
-![f:id:itstaffing:20200122103525j:plain](vx_images/309530911230400.jpeg "f:id:itstaffing:20200122103525j:plain")
+▼登场角色介绍
+![](vx_images/309530911230400.jpeg "f:id:itstaffing:20200122103525j:plain")
